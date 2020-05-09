@@ -1,3 +1,8 @@
+:root {
+	--input-padding-x: 1.5rem;
+	--input-padding-y: 0.75rem;
+	}
+
 html,body{
 	padding: 0;
 	margin: 0;
@@ -8,10 +13,6 @@ html,body{
 	-ms-user-select: none;
 	user-select: none;
 	overflow-x: hidden;
-}
-:root {
---input-padding-x: 1.5rem;
---input-padding-y: 0.75rem;
 }
 
 .page{
