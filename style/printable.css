@@ -1,0 +1,54 @@
+.printable-document-root{
+	position: relative;
+	display: grid;
+	grid-template-columns: 1fr;
+	justify-items: center;
+	background: #c1c1c1;
+	padding: 1rem;
+	z-index: 1000;
+}
+.printable-new-page {
+	position: relative;
+	background: #ffffff;
+	padding: 1rem;
+	margin-bottom: 2rem;
+	border-radius: 0.5rem;
+	box-shadow: 0px 2px 5px rgba(0,0,0,0.3);
+	min-height: 100vh;
+	width: 100%;
+	z-index: 1001;
+}
+.printable-new-page:last-child{
+	margin-bottom: 7rem;
+}
+.printable-menu{
+	background: rgba(0,0,0,0.3);
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	padding: 1rem;
+	z-index: 1002;
+}
+
+@media print{
+	.printable-document-root{
+		display: block;
+		padding: 0;
+	}
+
+	.printable-new-page {
+		page-break-before: always;
+		
+		padding: 0;
+		margin-bottom: 0;
+		border-radius: 0;
+		box-shadow: 0 0 0 rgba(0,0,0,0.3);
+		min-height: auto;
+		width: auto;
+	}
+
+	.printable-menu{
+		display: none !important;
+	}
+}
