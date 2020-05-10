@@ -1,5 +1,4 @@
 <script>
-	import PrintableDocument from './../misc/PrintableDocument.svelte';
 	import InputField from './../input/InputField.svelte';
 	import Checkbox from './../input/Checkbox.svelte';
 	import uuid from './../../script/uuid.js';

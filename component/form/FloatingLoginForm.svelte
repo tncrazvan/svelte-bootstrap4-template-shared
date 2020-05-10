@@ -3,9 +3,11 @@
 	import InputField from './../input/InputField.svelte';
 	import uuid from './../../script/uuid.js';
 	export let submit;
+	export let locale = {};
 	export let forgotPassword;
 	let id = uuid();
 	let email="",password="",rememberMe=false;
+	
 </script>
 <div class="container">
 	<div class="row">

@@ -32,9 +32,15 @@
 }
 
 @media print{
+	*{
+		-webkit-print-color-adjust: exact !important;   /* Chrome, Safari */
+    	color-adjust: exact !important;                 /*Firefox*/
+	}
+
 	.printable-document-root{
 		display: block;
 		padding: 0;
+		background: transparent;
 	}
 
 	.printable-new-page {
