@@ -5,6 +5,7 @@
 	import {language} from './../../store/language.js';
 	export let submit;
 	export let forgotPassword;
+	export let image;
 	let id = uuid();
 	let email="",password="",rememberMe=false;
 	function submitEvent(e){
@@ -16,6 +17,9 @@
 	<div class="row">
 		<div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
 			<div class="card card-signin my-5">
+				{#if image && image !== ""}
+					<img src={image} alt="logo" class="logo" />
+				{/if}
 				<div class="card-body">
 				<h5 class="card-title text-center">{$language.login}</h5>
 				<form class="form-signin" on:submit={submitEvent}>
@@ -34,7 +38,9 @@
 	</div>
 </div>
 <style>
-
+	.logo{
+		max-width: 100%;
+	}
   .card-signin {
     border: 0;
     border-radius: 1rem;
