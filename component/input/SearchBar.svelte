@@ -49,6 +49,8 @@
 			case 13: //enter
 				if(y >= 0 && activeSuggestionList[y] && activeSuggestionList[y].action)
 					select(activeSuggestionList[y]);
+				else
+					select({value:value,selectedTags});
 				break;
 			case 38: //arrow up
 				highlightUp();
@@ -127,7 +129,7 @@
 				}
 			}
 		});
-		
+
 		Object.keys(tags).forEach(key=>{
 			key = key.toLocaleLowerCase()+" ";
 			if(key !== "main" && key.match(regex)){
