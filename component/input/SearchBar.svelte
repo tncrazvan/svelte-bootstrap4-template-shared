@@ -50,7 +50,7 @@
 				if(y >= 0 && activeSuggestionList[y] && activeSuggestionList[y].action)
 					select(activeSuggestionList[y]);
 				else
-					select({value:value,selectedTags});
+					submit(value,selectedTags);
 				break;
 			case 38: //arrow up
 				highlightUp();
