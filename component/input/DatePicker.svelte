@@ -4,6 +4,7 @@
 	export let color = "red";
 	export let update;
 	export let label;
+	let cls = ""; export {cls as class};
 	let val = ""; export {val as value};
 	let self;
 	let id = uuid();
@@ -16,7 +17,7 @@
 		});
 	});
 </script>
-<div class="form-label-group">
+<div class="form-label-group {cls}">
 	<input bind:this={self} bind:value={val} type="password" id="{id}-inputPassword" class="datepicker form-control" placeholder={label}>
 	<label for="{id}-inputPassword">{label}</label>
 </div>

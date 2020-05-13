@@ -12,6 +12,7 @@
 	export let hints = true;
 	export let suggestions = [];
 	export let tags = {};
+	let cls = ""; export {cls as class};
 	function selectTag(item){
 		value = item.value+" ";
 		filter(false);
@@ -106,7 +107,7 @@
 		activeSuggestionList = activeSuggestionList;
 	}
 </script>
-<div class="search-bar">
+<div class="search-bar {cls}">
 	<div class="form-label-group">
 		{#if hints && focused && value === "" && selectedTags.length > 0}
 			<div transition:fly={{ y: 30, duration: 200 }} class="remove-tag-info">
