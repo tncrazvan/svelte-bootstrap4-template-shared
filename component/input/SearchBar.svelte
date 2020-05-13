@@ -12,16 +12,14 @@
 	export let hints = true;
 	export let suggestions = [];
 	export let tags = {};
+	let y = -1;
 	let cls = ""; export {cls as class};
 	function selectTag(item){
 		value = item.value+" ";
 		filter(false);
 	}
-	Object.keys(tags).forEach(key=>{
-		tags[key] = {value:key,action:selectTag};
-		suggestions[key] = tags[key];
-	});
 	tags.main = suggestions;
+	console.log(tags);
 	let buttonClass = "btn-primary";
 	let self,id = uuid();
 	let focused = false;
@@ -39,18 +37,56 @@
 		value = item.value;
 	}
 
+	function tryFocus(el,item){
+		//el.click();
+	}
+
+	function selectUp(){
+		if(y-1 < 0){
+			y = activeSuggestionList.length-1;
+		}else
+			y--;
+	}
+
+	function selectDown(){
+		if(y < 0){
+			y = 0;
+		}else
+			y = (y + 1)%activeSuggestionList.length;
+	}
+
+	function keydown(e){
+		switch(e.keyCode){
+			case 38: //arrow up
+				selectUp();
+			break;
+			case 40: //arrow down
+				selectDown();
+			break;
+		}
+	}
 	function keyup(e){
-		filter(e.keyCode === 8 && e.shiftKey);
+		switch(e.keyCode){
+			case 38: //arrow up
+				//selectUp();
+			break;
+			case 40: //arrow down
+				//selectDown();
+			break;
+			default:
+				filter(e.keyCode === 8 && e.shiftKey);
+				break;
+		}
 	}
 
 	function filter(pop){
-		let groups = value.match(PATTERN_TAG);
-		if(groups){
-			groups.forEach(group=>{
-				group = group.trim().toLocaleLowerCase();
+		let inputMatches = value.match(PATTERN_TAG);
+		if(inputMatches){
+			inputMatches.forEach(inputMatch=>{
+				inputMatch = inputMatch.trim().toLocaleLowerCase();
 				Object.keys(tags).forEach(key=>{
 					key = key.toLocaleLowerCase();
-					if(group.match(key) && !selectedTags.includes(key)){
+					if(inputMatch === key && !selectedTags.includes(key)){
 						selectedTags.push(key);
 						value = "";
 						selectedTags = selectedTags;
@@ -73,12 +109,25 @@
 		Object.keys(tags).forEach(key=>{
 			key = key.toLocaleLowerCase();
 			if(selectedTags.includes(key) || key === "main"){
-				for(let key in tags){
-					tmp = tags[key].value.toLocaleLowerCase();
-					if(tmp.match(regex) && tmp !== value.toLocaleLowerCase()){
-						activeSuggestionList.push(tags[key]);
+				Object.keys(tags).forEach(key=>{
+					for(let i = 0; i < tags[key].length; i++){
+						try{
+							tmp = tags[key][i].value.toLocaleLowerCase();
+							if(tmp.match(regex) && tmp !== value.toLocaleLowerCase()){
+								activeSuggestionList.push(tags[key][i]);
+							}
+						}catch(e){
+							console.error(e);
+						}
 					}
-				}
+				});
+			}
+		});
+
+		Object.keys(tags).forEach(key=>{
+			key = key.toLocaleLowerCase();
+			if(key !== "main"){
+				activeSuggestionList.push({value:key,action:selectTag});
 			}
 		});
 	}
@@ -126,7 +175,7 @@
 		</div>
 		{/if}
 
-		<input on:keyup={keyup} on:focus={()=>{focused = true}} on:blur={()=>{focused = false}} bind:this={self} bind:value={value} id="{id}-search-bar" class="form-control" placeholder={label}>
+		<input on:keydown={keydown} on:keyup={keyup} on:focus={()=>{focused = true}} on:blur={()=>{focused = false}} bind:this={self} bind:value={value} id="{id}-search-bar" class="form-control" placeholder={label}>
 		<label for="{id}-search-bar">{label}</label>
 	</div>
 	<button type="button" on:click={()=>{submit(value,selectedTags)}} class="submit btn {buttonClass}">
@@ -137,8 +186,8 @@
 	{#if focused && activeSuggestionList.length > 0}
 	<div transition:fly={{ y: -30, duration: 200 }} class="activeSuggestionList card">
 		<ul class="list-group list-group-flush">
-			{#each activeSuggestionList as item}
-			<li class="list-group-item" on:click={()=>{select(item)}}>
+			{#each activeSuggestionList as item,i}
+			<li use:tryFocus={item} class="list-group-item{y === i?" selected":""}" on:click={()=>{select(item)}}>
 				{#if item.icon}
 					<i class="fa fa-{item.icon}"></i>
 				{/if}
@@ -152,6 +201,9 @@
 
 
 <style>
+	.selected{
+		background: rgba(200,200,200,0.3);
+	}
 	.remove-tag-info{
 		position: absolute;
 		top: -2rem;
