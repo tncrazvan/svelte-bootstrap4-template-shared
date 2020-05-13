@@ -3,6 +3,7 @@ import lsm from '../script/LocalStorageManager.js';
 
 let store = {
 	login: "Login",
+	username:"Username",
 	emailAddress:"Email address",
 	password:"Password",
 	rememberMe:"Remember me",
