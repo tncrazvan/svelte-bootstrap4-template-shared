@@ -10,7 +10,7 @@
 	let email="",password="",rememberMe=false;
 	function submitEvent(e){
 		e.preventDefault();
-		submit({email:email,password:password,rememberMe:rememberMe});
+		submit({email:email,password:btoa(password),rememberMe:rememberMe});
 	}
 </script>
 

@@ -13,9 +13,9 @@
   let error = "";
   function check(){
       error = "";
-      const validation = validate({username:username,email:email,password:password,confirm:confirm,terms:terms});
+      const validation = validate({username:username,email:email,password:btoa(password),confirm:confirm,terms:terms});
       if(validation === true)
-        submit({username:username,email:email,password:password,confirm:confirm,terms:terms})
+        submit({username:username,email:email,password:btoa(password),confirm:confirm,terms:terms})
       else if(validation === false)
         error = $language.unknownValidationError;
       else

@@ -9,6 +9,10 @@
 	let id = uuid();
 	let email="",password="",rememberMe=false;
 	let doc;
+	function submitEvent(e){
+		e.preventDefault();
+		submit({email:email,password:btoa(password),rememberMe:rememberMe});
+	}
 </script>
 <div class="container-fluid">
 	<div class="row no-gutter">
@@ -19,7 +23,7 @@
 					<div class="row">
 						<div class="col-md-9 col-lg-8 mx-auto">
 							<h3 class="login-heading mb-4">{$language.login}</h3>
-							<form on:submit={e=>{e.preventDefault();submit({email:email,password:password,rememberMe:rememberMe})}}>
+							<form on:submit={submitEvent}>
 								<InputField bind:value={email} label={$language.emailAddress} />
 								<InputField bind:value={password} label={$language.password} />
 								<Checkbox bind:checked={rememberMe} label={$language.rememberMe} />
