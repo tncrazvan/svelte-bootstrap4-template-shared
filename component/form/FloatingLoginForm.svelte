@@ -36,6 +36,9 @@
 <style>
 	.logo{
 		max-width: 100%;
+		margin-top: 1rem;
+		margin-left: 1rem;
+		margin-right: 1rem;
 	}
   .card-signin {
     border: 0;
