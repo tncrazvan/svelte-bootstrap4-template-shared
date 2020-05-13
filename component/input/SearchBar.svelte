@@ -14,12 +14,6 @@
 	export let tags = {};
 	let y = -1;
 	let cls = ""; export {cls as class};
-	function selectTag(item){
-		value = item.value+" ";
-		filter(false);
-	}
-	tags.main = suggestions;
-	console.log(tags);
 	let buttonClass = "btn-primary";
 	let self,id = uuid();
 	let focused = false;
@@ -31,24 +25,19 @@
 
 	function select(item){
 		if(item.action){
-			if(!item.action(item))
-				return;
+			item.action(item,selectedTags);
 		}
 		value = item.value;
 	}
 
-	function tryFocus(el,item){
-		//el.click();
-	}
-
-	function selectUp(){
+	function highlightUp(){
 		if(y-1 < 0){
 			y = activeSuggestionList.length-1;
 		}else
 			y--;
 	}
 
-	function selectDown(){
+	function highlightDown(){
 		if(y < 0){
 			y = 0;
 		}else
@@ -57,21 +46,25 @@
 
 	function keydown(e){
 		switch(e.keyCode){
+			case 13: //enter
+				if(y >= 0 && activeSuggestionList[y] && activeSuggestionList[y].action)
+					select(activeSuggestionList[y]);
+				break;
 			case 38: //arrow up
-				selectUp();
+				highlightUp();
 			break;
 			case 40: //arrow down
-				selectDown();
+				highlightDown();
 			break;
 		}
 	}
 	function keyup(e){
 		switch(e.keyCode){
 			case 38: //arrow up
-				//selectUp();
+				//highlightUp();
 			break;
 			case 40: //arrow down
-				//selectDown();
+				//highlightDown();
 			break;
 			default:
 				filter(e.keyCode === 8 && e.shiftKey);
@@ -80,11 +73,12 @@
 	}
 
 	function filter(pop){
+		y = -1;
 		let inputMatches = value.match(PATTERN_TAG);
 		if(inputMatches){
-			inputMatches.forEach(inputMatch=>{
+			for(let inputMatch of inputMatches){
 				inputMatch = inputMatch.trim().toLocaleLowerCase();
-				Object.keys(tags).forEach(key=>{
+				for(let key in tags){
 					key = key.toLocaleLowerCase();
 					if(inputMatch === key && !selectedTags.includes(key)){
 						selectedTags.push(key);
@@ -92,8 +86,8 @@
 						selectedTags = selectedTags;
 						return;
 					}
-				});
-			});
+				}
+			}
 		}
 
 		activeSuggestionList = [];
@@ -105,29 +99,44 @@
 			return;
 		}
 		const regex = new RegExp(value===""?".*":value);
-		let tmp;
+		let tmp = null;
+		for(let i = 0; i < suggestions.length; i++){
+			let suggestion = suggestions[i];
+			try{
+				tmp = suggestion.value.toLocaleLowerCase();
+				if(tmp.match(regex) && tmp !== value.toLocaleLowerCase() && !activeSuggestionList.includes(suggestion)){
+					activeSuggestionList.push(suggestion);
+				}
+			}catch(e){
+				console.error(e);
+			}
+		}
+		tmp = null;
 		Object.keys(tags).forEach(key=>{
 			key = key.toLocaleLowerCase();
-			if(selectedTags.includes(key) || key === "main"){
-				Object.keys(tags).forEach(key=>{
-					for(let i = 0; i < tags[key].length; i++){
-						try{
-							tmp = tags[key][i].value.toLocaleLowerCase();
-							if(tmp.match(regex) && tmp !== value.toLocaleLowerCase()){
-								activeSuggestionList.push(tags[key][i]);
-							}
-						}catch(e){
-							console.error(e);
+			if(selectedTags.includes(key)){
+				for(let i = 0; i < tags[key].length; i++){
+					try{
+						tmp = tags[key][i].value.toLocaleLowerCase();
+						if(tmp.match(regex) && tmp !== value.toLocaleLowerCase() && !activeSuggestionList.includes(tags[key][i])){
+							activeSuggestionList.push(tags[key][i]);
 						}
+					}catch(e){
+						console.error(e);
 					}
-				});
+				}
 			}
 		});
-
+		
 		Object.keys(tags).forEach(key=>{
-			key = key.toLocaleLowerCase();
-			if(key !== "main"){
-				activeSuggestionList.push({value:key,action:selectTag});
+			key = key.toLocaleLowerCase()+" ";
+			if(key !== "main" && key.match(regex)){
+				const o = {value:key,action:()=>{
+					setTimeout(()=>{
+						filter(false);
+					},100);
+				}};
+				activeSuggestionList.push(o);
 			}
 		});
 	}
@@ -187,7 +196,7 @@
 	<div transition:fly={{ y: -30, duration: 200 }} class="activeSuggestionList card">
 		<ul class="list-group list-group-flush">
 			{#each activeSuggestionList as item,i}
-			<li use:tryFocus={item} class="list-group-item{y === i?" selected":""}" on:click={()=>{select(item)}}>
+			<li class="list-group-item{y === i?" selected":""}" on:click={()=>{select(item)}}>
 				{#if item.icon}
 					<i class="fa fa-{item.icon}"></i>
 				{/if}
