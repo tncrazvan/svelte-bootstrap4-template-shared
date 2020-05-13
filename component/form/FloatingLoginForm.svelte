@@ -3,11 +3,13 @@
 	import InputField from './../input/InputField.svelte';
 	import uuid from './../../script/uuid.js';
 	export let submit;
-	export let locale = {};
 	export let forgotPassword;
 	let id = uuid();
 	let email="",password="",rememberMe=false;
-	
+	function submitEvent(e){
+		e.preventDefault();
+		submit({email:email,password:password,rememberMe:rememberMe});
+	}
 </script>
 <div class="container">
 	<div class="row">
@@ -15,7 +17,7 @@
 			<div class="card card-signin my-5">
 				<div class="card-body">
 				<h5 class="card-title text-center">Login</h5>
-				<form class="form-signin" on:submit={e=>{e.preventDefault();submit({email:email,password:password,rememberMe:rememberMe})}}>
+				<form class="form-signin" on:submit={submitEvent}>
 					<InputField bind:value={email} type={"text"} label={"Email address"}/>
 					<InputField bind:value={password} type={"password"} label={"Password"}/>
 					<Checkbox bind:checked={rememberMe} label={"Remember me"} />

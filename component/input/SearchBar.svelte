@@ -9,48 +9,45 @@
 	export let icon="search";
 	export let submit;
 	export let hints = true;
+	export let suggestions = [];
+	export let tags = {};
+	function selectTag(item){
+		value = item.value+" ";
+		filter(false);
+	}
+	Object.keys(tags).forEach(key=>{
+		tags[key] = {value:key,action:selectTag};
+		suggestions[key] = tags[key];
+	});
+	tags.main = suggestions;
 	let buttonClass = "btn-primary";
 	let self,id = uuid();
 	let focused = false;
-	let suggestionsList = [];
-	let tags = {
-		"main":[
-			{"value":"asq234e2d"},
-			{"value":"3qwr54"},
-			{"value":"ho3qw4rw"},
-			{"value":"3qw4"},
-			{"value":"aaaaaa?"},
-		],
-		"#prt": [
-			{"value":"hello"},
-			{"value":"world"},
-			{"value":"how"},
-			{"value":"are"},
-			{"value":"you?"},
-		],
-		"#asd1": [],
-		"#asd2": [],
-		"#asd3": [],
-		"#asd4": [],
-		"#asd5": [],
-		"#asd6": [],
-	};
+	let activeSuggestionList = [];
 	let shiftDown = false;
 	let showAll = false;
 	const PATTERN_TAG = /\#\w+\s+/g;
 	let selectedTags = [];
+
 	function select(item){
+		if(item.action){
+			if(!item.action(item))
+				return;
+		}
 		value = item.value;
 	}
+
 	function keyup(e){
 		filter(e.keyCode === 8 && e.shiftKey);
 	}
+
 	function filter(pop){
 		let groups = value.match(PATTERN_TAG);
 		if(groups){
 			groups.forEach(group=>{
-				group = group.trim();
+				group = group.trim().toLocaleLowerCase();
 				Object.keys(tags).forEach(key=>{
+					key = key.toLocaleLowerCase();
 					if(group.match(key) && !selectedTags.includes(key)){
 						selectedTags.push(key);
 						value = "";
@@ -61,7 +58,7 @@
 			});
 		}
 
-		suggestionsList = [];
+		activeSuggestionList = [];
 		if(value.trim() === "") {
 			if(pop){
 				selectedTags.pop();
@@ -70,16 +67,18 @@
 			return;
 		}
 		const regex = new RegExp(value===""?".*":value);
+		let tmp;
 		Object.keys(tags).forEach(key=>{
+			key = key.toLocaleLowerCase();
 			if(selectedTags.includes(key) || key === "main"){
-				tags[key].forEach(item=>{
-					if(item.value.match(regex) && item.value !== value)
-						suggestionsList.push(item);
-				});
+				for(let key in tags){
+					tmp = tags[key].value.toLocaleLowerCase();
+					if(tmp.match(regex) && tmp !== value.toLocaleLowerCase()){
+						activeSuggestionList.push(tags[key]);
+					}
+				}
 			}
 		});
-		
-		
 	}
 
 	function removeTag(tag){
@@ -95,15 +94,15 @@
 				let suggestionsToRemove = selectedTags.splice(index1,1);
 				suggestionsToRemove = tags[suggestionsToRemove];
 				suggestionsToRemove.forEach(suggestion=>{
-					let index2 = suggestionsList.indexOf(suggestion);
+					let index2 = activeSuggestionList.indexOf(suggestion);
 					if(index2 >= 0)
-						suggestionsList.splice(index2,1);
+						activeSuggestionList.splice(index2,1);
 				});
 			}
 			
 		});
 		selectedTags = selectedTags;
-		suggestionsList = suggestionsList;
+		activeSuggestionList = activeSuggestionList;
 	}
 </script>
 <div class="search-bar">
@@ -133,10 +132,10 @@
 		<span>{text}</span>
 	</button>
 	
-	{#if focused && suggestionsList.length > 0}
-	<div transition:fly={{ y: -30, duration: 200 }} class="suggestionsList card">
+	{#if focused && activeSuggestionList.length > 0}
+	<div transition:fly={{ y: -30, duration: 200 }} class="activeSuggestionList card">
 		<ul class="list-group list-group-flush">
-			{#each suggestionsList as item}
+			{#each activeSuggestionList as item}
 			<li class="list-group-item" on:click={()=>{select(item)}}>
 				{#if item.icon}
 					<i class="fa fa-{item.icon}"></i>
@@ -187,7 +186,7 @@
 		cursor: pointer;
 	}
 
-	.suggestionsList{
+	.activeSuggestionList{
 		position: absolute;
 		top: 100%;
 		left: 0;
@@ -197,10 +196,10 @@
 		overflow-x: hidden;
 		max-height: 30vh;
 	}
-	.suggestionsList .list-group-item{
+	.activeSuggestionList .list-group-item{
 		cursor: pointer;
 	}
-	.suggestionsList .list-group-item:hover,.suggestionsList .list-group-item.hovering{
+	.activeSuggestionList .list-group-item:hover,.activeSuggestionList .list-group-item.hovering{
 		background: rgba(200,200,200,0.3);
 	}
 
