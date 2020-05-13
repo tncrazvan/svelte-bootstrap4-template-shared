@@ -128,7 +128,7 @@
 		<input on:keyup={keyup} on:focus={()=>{focused = true}} on:blur={()=>{focused = false}} bind:this={self} bind:value={value} id="{id}-search-bar" class="form-control" placeholder={label}>
 		<label for="{id}-search-bar">{label}</label>
 	</div>
-	<button type="button" on:click={()=>{submit(value)}} class="submit btn {buttonClass}">
+	<button type="button" on:click={()=>{submit(value,selectedTags)}} class="submit btn {buttonClass}">
 		<i class="fa fa-{icon}"></i>
 		<span>{text}</span>
 	</button>
