@@ -7,8 +7,8 @@
 	let userData={
 		image: "https://raw.githubusercontent.com/azouaoui-med/pro-sidebar-template/gh-pages/src/img/user.jpg",
 		firstname: "Razvan",
-		lastname: "Razvan",
-		role: "Administration",
+		lastname: "Tanase",
+		role: "User",
 		status: "online",
 	};
 	const getUserData=function(script){

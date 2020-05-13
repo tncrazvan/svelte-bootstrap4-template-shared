@@ -1,4 +1,5 @@
 <script>
+	import { language } from './../../store/language.js';
 	export let items;
 	export let title;
 	export let description;
@@ -55,7 +56,7 @@
 												</div>
 											</div>
 											<div class="col-md-4 quantity">
-												<label for="quantity">Quantity:</label>
+												<label for="quantity">{$language.quantity}:</label>
 												<input on:change={quantityChange(i)} id="quantity" type="number" bind:value={item.quantity} class="form-control quantity-input">
 											</div>
 											<div class="col-md-3 price">
@@ -71,17 +72,17 @@
 				</div>
 				<div class="col-md-12 col-lg-4">
 					<div class="summary">
-						<h3>Summary</h3>
-						<div class="summary-item"><span class="text">Subtotal</span><span class="price">{subtotal(delta)}</span></div>
-						<div class="summary-item"><span class="text">Discount</span><span class="price">{discount}</span></div>
-						<div class="summary-item"><span class="text">Shipping</span><span class="price">{shipping}</span></div>
-						<div class="summary-item"><span class="text">Total</span><span class="price">{subtotal(delta)-discount+shipping}</span></div>
+						<h3>{$language.summary}</h3>
+						<div class="summary-item"><span class="text">{$language.subtotal}</span><span class="price">{subtotal(delta)}</span></div>
+						<div class="summary-item"><span class="text">{$language.discount}</span><span class="price">{discount}</span></div>
+						<div class="summary-item"><span class="text">{$language.shipping}</span><span class="price">{shipping}</span></div>
+						<div class="summary-item"><span class="text">{$language.total}</span><span class="price">{subtotal(delta)-discount+shipping}</span></div>
 						<button on:click={e=>checkout({
 							subtotal: subtotal(delta),
 							discount: discount,
 							shipping: shipping,
 							total: subtotal(delta)-discount+shipping
-						})} type="button" class="btn btn-primary btn-lg btn-block">Checkout</button>
+						})} type="button" class="btn btn-primary btn-lg btn-block">{$language.checkout}</button>
 					</div>
 				</div>
 			</div> 

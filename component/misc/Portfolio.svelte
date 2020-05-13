@@ -1,5 +1,6 @@
 <script>
 	import IconButton from './../button/IconButton.svelte';
+	import { language } from './../../store/language.js';
 	export let title;
 	export let subtitle;
 	export let pages;
@@ -52,7 +53,7 @@
 		<li on:click={previous} class="page-item">
 			<span class="page-link" aria-label="Previous">
 				<span aria-hidden="true">&laquo;</span>
-				<span class="sr-only">Previous</span>
+				<span class="sr-only">{$language.previous}</span>
 			</span>
 		</li>
 		{#each pages as page,i}
@@ -63,7 +64,7 @@
 		<li on:click={next} class="page-item">
 			<span class="page-link" aria-label="Next">
 				<span aria-hidden="true">&raquo;</span>
-				<span class="sr-only">Next</span>
+				<span class="sr-only">{$language.next}</span>
 			</span>
 		</li>
 	</ul>

@@ -1,4 +1,5 @@
 <script>
+	import { language } from './../../store/language.js';
 	import IconButton from './../button/IconButton.svelte';
 	import InputField from './InputField.svelte';
 	import { fly } from 'svelte/transition';
@@ -109,7 +110,7 @@
 	<div class="form-label-group">
 		{#if hints && focused && value === "" && selectedTags.length > 0}
 			<div transition:fly={{ y: 30, duration: 200 }} class="remove-tag-info">
-				<b>Shift</b> + <i class="fa fa-backspace"></i> to pop a tag.
+				<b>Shift</b> + <i class="fa fa-backspace"></i> {$language.toPopATag}.
 			</div>
 		{/if}
 

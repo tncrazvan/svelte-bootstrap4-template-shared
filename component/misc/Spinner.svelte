@@ -1,4 +1,5 @@
 <script>
+	import { language } from './../../store/language.js';
 	export let type="primary";
 	let cls="";
 	switch(type.toLocaleLowerCase()){
@@ -29,5 +30,5 @@
 	}
 </script>
 <div class="spinner-border {cls}" role="status">
-  <span class="sr-only">Loading...</span>
+  <span class="sr-only">{$language.loading}...</span>
 </div>

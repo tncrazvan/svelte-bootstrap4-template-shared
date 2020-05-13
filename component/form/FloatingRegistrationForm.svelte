@@ -3,6 +3,7 @@
 	import InputField from './../input/InputField.svelte';
   import Alert from './../misc/Alert.svelte';
   import uuid from './../../script/uuid.js';
+	import { language } from './../../store/language.js';
   export let validate;
   export let submit;
   export let login;
@@ -16,7 +17,7 @@
       if(validation === true)
         submit({username:username,email:email,password:password,confirm:confirm,terms:terms})
       else if(validation === false)
-        error = "Unknown validation error.";
+        error = $language.unknownValidationError;
       else
         error = validation;
   }
@@ -29,21 +30,21 @@
 					<!-- Background image for card set in CSS! -->
 				</div>
 				<div class="card-body">
-				<h5 class="card-title text-center">Register</h5>
+				<h5 class="card-title text-center">{$language.register}</h5>
 				<form class="form-signin" on:submit={e=>{e.preventDefault();check();}}>
-          <InputField bind:value={username} type={"text"} label={"Username"}/>
-          <InputField bind:value={email} type={"text"} label={"Email address"}/>
+          <InputField bind:value={username} type={"text"} label={$language.username}/>
+          <InputField bind:value={email} type={"text"} label={$language.emailAddress}/>
           <hr>
-          <InputField bind:value={password} type={"text"} label={"Password"}/>
-          <InputField bind:value={confirm} type={"text"} label={"Confirm password"}/>
+          <InputField bind:value={password} type={"text"} label={$language.password}/>
+          <InputField bind:value={confirm} type={"text"} label={$language.confirmPassword}/>
 
-          <Checkbox bind:checked={terms} label={"I read the terms of use"}/>
+          <Checkbox bind:checked={terms} label={$language.iReadTheTermsOfUse}/>
           {#if error !== ""}
           <Alert text={error} level="danger"/>
           {/if}
-					<button type="submit" class="btn btn-lg btn-primary btn-block text-uppercase">Register</button>
+					<button type="submit" class="btn btn-lg btn-primary btn-block text-uppercase">{$language.register}</button>
 					<hr class="my-4">
-					<span on:click={e=>login()} class="d-block text-center mt-2 small text-primary">Login</span>
+					<span on:click={e=>login()} class="d-block text-center mt-2 small text-primary">{$language.login}</span>
 				</form>
 				</div>
 			</div>

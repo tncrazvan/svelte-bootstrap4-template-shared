@@ -2,6 +2,7 @@
 	import Checkbox from './../input/Checkbox.svelte';
 	import InputField from './../input/InputField.svelte';
 	import uuid from './../../script/uuid.js';
+	import {language} from './../../store/language.js';
 	export let submit;
 	export let forgotPassword;
 	let id = uuid();
@@ -16,15 +17,15 @@
 		<div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
 			<div class="card card-signin my-5">
 				<div class="card-body">
-				<h5 class="card-title text-center">Login</h5>
+				<h5 class="card-title text-center">{$language.login}</h5>
 				<form class="form-signin" on:submit={submitEvent}>
-					<InputField bind:value={email} type={"text"} label={"Email address"}/>
-					<InputField bind:value={password} type={"password"} label={"Password"}/>
-					<Checkbox bind:checked={rememberMe} label={"Remember me"} />
-					<button type="submit" class="btn btn-lg btn-primary btn-block text-uppercase">Login</button>
+					<InputField bind:value={email} type={"text"} label={$language.emailAddress}/>
+					<InputField bind:value={password} type={"password"} label={$language.password}/>
+					<Checkbox bind:checked={rememberMe} label={$language.rememberMe} />
+					<button type="submit" class="btn btn-lg btn-primary btn-block text-uppercase">{$language.login}</button>
 					<hr class="my-4">
 					<div class="text-center">
-						<span on:click={e=>forgotPassword(email)} class="small text-primary">Forgot password?</span>
+						<span on:click={e=>forgotPassword(email)} class="small text-primary">{$language.forgotPasswordQ}</span>
 					</div>
 				</form>
 				</div>
