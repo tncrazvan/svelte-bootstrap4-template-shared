@@ -22,34 +22,28 @@
         error = validation;
   }
 </script>
-<div class="container">
-	<div class="row">
-		<div class="col-lg-10 col-xl-9 mx-auto">
-			<div class="card card-signin flex-row my-5">
-				<div class="card-img-left d-none d-md-flex" style="background: scroll center url('{image}');">
-					<!-- Background image for card set in CSS! -->
-				</div>
-				<div class="card-body">
-				<h5 class="card-title text-center">{$language.register}</h5>
-				<form class="form-signin" on:submit={e=>{e.preventDefault();check();}}>
-          <InputField bind:value={username} type={"text"} label={$language.username}/>
-          <InputField bind:value={email} type={"text"} label={$language.emailAddress}/>
-          <hr>
-          <InputField bind:value={password} type={"text"} label={$language.password}/>
-          <InputField bind:value={confirm} type={"text"} label={$language.confirmPassword}/>
+<div class="card card-signin flex-row my-5">
+    <div class="card-img-left d-none d-md-flex" style="background: scroll center url('{image}');">
+      <!-- Background image for card set in CSS! -->
+    </div>
+    <div class="card-body">
+      <h5 class="card-title text-center">{$language.register}</h5>
+      <form class="form-signin" on:submit={e=>{e.preventDefault();check();}}>
+        <InputField bind:value={username} type={"text"} label={$language.username}/>
+        <InputField bind:value={email} type={"text"} label={$language.emailAddress}/>
+        <hr>
+        <InputField bind:value={password} type={"text"} label={$language.password}/>
+        <InputField bind:value={confirm} type={"text"} label={$language.confirmPassword}/>
 
-          <Checkbox bind:checked={terms} label={$language.iReadTheTermsOfUse}/>
-          {#if error !== ""}
-          <Alert text={error} level="danger"/>
-          {/if}
-					<button type="submit" class="btn btn-lg btn-primary btn-block text-uppercase">{$language.register}</button>
-					<hr class="my-4">
-					<span on:click={e=>login()} class="d-block text-center mt-2 small text-primary">{$language.login}</span>
-				</form>
-				</div>
-			</div>
-		</div>
-	</div>
+        <Checkbox bind:checked={terms} label={$language.iReadTheTermsOfUse}/>
+        {#if error !== ""}
+        <Alert text={error} level="danger"/>
+        {/if}
+        <button type="submit" class="btn btn-lg btn-primary btn-block text-uppercase">{$language.register}</button>
+        <hr class="my-4">
+        <span on:click={e=>login()} class="d-block text-center mt-2 small text-primary">{$language.login}</span>
+      </form>
+    </div>
 </div>
 <style>
   .card-signin {

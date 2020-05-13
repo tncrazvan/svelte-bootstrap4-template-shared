@@ -13,30 +13,26 @@
 		submit({email:email,password:password,rememberMe:rememberMe});
 	}
 </script>
-<div class="container">
-	<div class="row">
-		<div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
-			<div class="card card-signin my-5">
-				{#if image && image !== ""}
-					<img src={image} alt="logo" class="logo" />
-				{/if}
-				<div class="card-body">
-				<h5 class="card-title text-center">{$language.login}</h5>
-				<form class="form-signin" on:submit={submitEvent}>
-					<InputField bind:value={email} type={"text"} label={$language.emailAddress}/>
-					<InputField bind:value={password} type={"password"} label={$language.password}/>
-					<Checkbox bind:checked={rememberMe} label={$language.rememberMe} />
-					<button type="submit" class="btn btn-lg btn-primary btn-block text-uppercase">{$language.login}</button>
-					<hr class="my-4">
-					<div class="text-center">
-						<span on:click={e=>forgotPassword(email)} class="small text-primary">{$language.forgotPasswordQ}</span>
-					</div>
-				</form>
-				</div>
-			</div>
+
+<div class="card card-signin my-5">
+	{#if image && image !== ""}
+		<img src={image} alt="logo" class="logo" />
+	{/if}
+	<div class="card-body">
+	<h5 class="card-title text-center">{$language.login}</h5>
+	<form class="form-signin" on:submit={submitEvent}>
+		<InputField bind:value={email} type={"text"} label={$language.emailAddress}/>
+		<InputField bind:value={password} type={"password"} label={$language.password}/>
+		<Checkbox bind:checked={rememberMe} label={$language.rememberMe} />
+		<button type="submit" class="btn btn-lg btn-primary btn-block text-uppercase">{$language.login}</button>
+		<hr class="my-4">
+		<div class="text-center">
+			<span on:click={e=>forgotPassword(email)} class="small text-primary">{$language.forgotPasswordQ}</span>
 		</div>
+	</form>
 	</div>
 </div>
+
 <style>
 	.logo{
 		max-width: 100%;
