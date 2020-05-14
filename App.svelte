@@ -49,7 +49,19 @@
 	{/await}
 {/if}
 {#if !$printer.showing}
+<div id="main">
 	<Main url={url} />
+</div>
 {:else}
 	<Printing />
 {/if}
+<style>
+	#main{
+		position: fixed;
+		left: 0;
+		right: 0;
+		top: 0;
+		bottom: 0;
+		overflow: hidden;
+	}
+</style>
