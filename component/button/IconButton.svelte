@@ -20,6 +20,12 @@
 </button>
 
 <style>
+	.btn{
+		transition: background 200ms, transform 200ms;
+	}
+	.btn:active{
+		transform: scale(0.9);
+	}
 	i.adjust{
 		position: relative;
 		top: 3px;
