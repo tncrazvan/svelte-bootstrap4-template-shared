@@ -16,6 +16,7 @@
 	let arrowEl;
 
 	onMount(async ()=>{
+		if(type.includes("none")) return;
 		(function poll(){
 			if(target){
 				if(type === "mouseover"){
@@ -23,7 +24,7 @@
 						target.setAttribute("id",id);
 					target.addEventListener("mouseover",enter);
 					target.addEventListener("mouseout",leave);
-				}else{
+				}else if(type ==="click"){
 					if(type.includes("click")){
 						if(target.setAttribute)
 							target.setAttribute("id",id);
@@ -34,6 +35,8 @@
 							target.setAttribute("id",id);
 						target.addEventListener("focus",enter);
 					}
+				}else{
+					forceEndPoll = true;
 				}
 				return;
 			}
@@ -46,11 +49,11 @@
 		forceEndPoll = true;
 	});
 
-	function enter(selfcall){
+	export function enter(selfcall){
 		$tooltip = id;
 	}
 
-	function leave(){
+	export function leave(){
 		$tooltip = "";
 	}
 	
