@@ -156,8 +156,7 @@
 <style>
 	.card{
 		pointer-events: none;
-		pointer-events: none;
-		position: absolute;
+		position: fixed;
 		display: block;
 		z-index: 99999;
 		border-color: #e3e3e3;
