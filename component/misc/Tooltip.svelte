@@ -18,18 +18,22 @@
 	onMount(async ()=>{
 		(function poll(){
 			if(target){
-				switch(type){
-					case "mouseover":
-						if(target.setAttribute)
-							target.setAttribute("id",id);
-						target.addEventListener("mouseover",enter);
-						target.addEventListener("mouseout",leave);
-						break;
-					case "click":
+				if(type === "mouseover"){
+					if(target.setAttribute)
+						target.setAttribute("id",id);
+					target.addEventListener("mouseover",enter);
+					target.addEventListener("mouseout",leave);
+				}else{
+					if(type.includes("click")){
 						if(target.setAttribute)
 							target.setAttribute("id",id);
 						target.addEventListener("click",enter);
-						break;
+					}
+					if(type.includes("focus")){
+						if(target.setAttribute)
+							target.setAttribute("id",id);
+						target.addEventListener("focus",enter);
+					}
 				}
 				return;
 			}
