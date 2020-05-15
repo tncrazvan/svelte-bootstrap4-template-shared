@@ -1,5 +1,5 @@
 <script>
-	import { fly } from 'svelte/transition';
+	import { fade } from 'svelte/transition';
 	import {onMount,onDestroy} from 'svelte';
 	export let position = "top";
 	export let target;
@@ -127,23 +127,23 @@
 	function getTransition(){
 		switch(position){
 			case "top":
-				return {y:30,duration:100};
+				return {duration:50};
 				break;
 			case "bottom":
-				return {y:-30,duration:100};
+				return {duration:50};
 				break;
 
 			case "left":
-				return {x:30,duration:100};
+				return {duration:50};
 				break;
 			case "right":
-				return {x:-30,duration:100};
+				return {duration:50};
 				break;
 		}
 	}
 </script>
 {#if show}
-<div use:manageTooltip class="card" transition:fly={getTransition()} style="left:{x}px;top:{y}px;{defaultStyle}{customStyle}">
+<div use:manageTooltip class="card" transition:fade={getTransition()} style="left:{x}px;top:{y}px;{defaultStyle}{customStyle}">
 	<div class="card-body">
 		<div class="arrow-wrapper">
 			<div use:manageArrow style="margin-left:{deltaForArrowX*2}px" class="arrow"></div>
@@ -164,7 +164,9 @@
 		background: #ffffff;
 	}
 	.card-body{
+		padding: 0.5rem;
 		position: relative;
+		font-size: 0.8rem;
 	}
 	.arrow-wrapper{
 		position: absolute;
@@ -183,7 +185,7 @@
 		background: #ffffff;
 		border-left: 1px solid #e3e3e3;
 		border-top: 1px solid #e3e3e3;
-		width: 1rem;
-		height: 1rem;
+		width: 0.7rem;
+		height: 0.7rem;
 	}
 </style>
