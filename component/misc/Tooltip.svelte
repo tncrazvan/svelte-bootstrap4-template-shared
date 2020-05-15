@@ -1,21 +1,36 @@
 <script>
+	import { tooltip } from './../../store/tooltip.js';
+	import uuid from './../../script/uuid.js';
 	import { fade } from 'svelte/transition';
-	import {onMount,onDestroy} from 'svelte';
+	import { onMount,onDestroy } from 'svelte';
 	export let position = "top";
+	export let type = "mouseover";
 	export let target;
+	let id = uuid();
 	let x=0,y=0;
-	let show = false;
 	let deltaForArrowX = 0;
 	let arrowWrapper;
-	const defaultStyle = "max-width: 300px;max-height: 200px;";
+	const defaultStyle = "max-width:300px;max-height:200px;";
 	let customStyle = ""; export {customStyle as style};
 	let forceEndPoll = false;
 	let arrowEl;
+
 	onMount(async ()=>{
 		(function poll(){
 			if(target){
-				target.addEventListener("mouseover",enter);
-				target.addEventListener("mouseout",leave);
+				switch(type){
+					case "mouseover":
+						if(target.setAttribute)
+							target.setAttribute("id",id);
+						target.addEventListener("mouseover",enter);
+						target.addEventListener("mouseout",leave);
+						break;
+					case "click":
+						if(target.setAttribute)
+							target.setAttribute("id",id);
+						target.addEventListener("click",enter);
+						break;
+				}
 				return;
 			}
 			if(forceEndPoll) return;
@@ -28,11 +43,11 @@
 	});
 
 	function enter(selfcall){
-		show = true;
+		$tooltip = id;
 	}
 
 	function leave(){
-		show = false;
+		$tooltip = "";
 	}
 	
 	function manageArrow(arrow){
@@ -142,7 +157,7 @@
 		}
 	}
 </script>
-{#if show}
+{#if $tooltip === id}
 <div use:manageTooltip class="card" transition:fade={getTransition()} style="left:{x}px;top:{y}px;{defaultStyle}{customStyle}">
 	<div class="card-body">
 		<div class="arrow-wrapper">
