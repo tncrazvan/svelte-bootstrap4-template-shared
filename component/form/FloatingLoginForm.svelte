@@ -1,4 +1,5 @@
 <script>
+	import IconButton from './../button/IconButton.svelte';
 	import Checkbox from './../input/Checkbox.svelte';
 	import InputField from './../input/InputField.svelte';
 	import uuid from './../../script/uuid.js';
@@ -9,7 +10,6 @@
 	let id = uuid();
 	let email="",password="",rememberMe=false;
 	function submitEvent(e){
-		e.preventDefault();
 		submit({email:email,password:btoa(password),rememberMe:rememberMe});
 	}
 </script>
@@ -20,11 +20,11 @@
 	{/if}
 	<div class="card-body">
 	<h5 class="card-title text-center">{$language.login}</h5>
-	<form class="form-signin" on:submit={submitEvent}>
+	<form class="form-signin">
 		<InputField bind:value={email} type={"text"} label={$language.emailAddress}/>
 		<InputField bind:value={password} type={"password"} label={$language.password}/>
 		<Checkbox bind:checked={rememberMe} label={$language.rememberMe} />
-		<button type="submit" class="btn btn-lg btn-primary btn-block text-uppercase">{$language.login}</button>
+		<IconButton style="width:100%" click={submitEvent} text={$language.login} />
 		<hr class="my-4">
 		<div class="text-center">
 			<span on:click={e=>forgotPassword(email)} class="small text-primary">{$language.forgotPasswordQ}</span>

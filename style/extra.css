@@ -15,6 +15,20 @@ html,body{
 	overflow-x: hidden;
 }
 
+.ghost{
+	display: none;
+}
+
+.form-control{
+	border-color: rgba(200,200,200,0.3);
+}
+.card{
+	border: 0;
+	border-radius: 1rem;
+	box-shadow: 0 0.5rem 1rem 0 rgba(0, 0, 0, 0.1);
+	margin-bottom: 3rem;
+}
+
 .page{
 	position: relative;
 	z-index: 0;
@@ -24,7 +38,7 @@ html,body{
 	grid-template-columns: auto;
 	align-items: center;
 	justify-items: center;
-	overflow-y: auto;
+	overflow-y: scroll;
 }
 
 .form-label-group {

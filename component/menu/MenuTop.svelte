@@ -1,6 +1,6 @@
 <script>
 	import { onMount,onDestroy } from 'svelte';
-	import { fly } from 'svelte/transition';
+	import { fade } from 'svelte/transition';
 	export let logoAction;
 	export let logo = "/assets/images/logo.png";
 	let fullscreenMenuVisible = false;
@@ -26,7 +26,7 @@
 </script>
 <nav bind:this={navbar} class="navbar navbar-light bg-light">
 	{#if width > 980}
-	<div transition:fly={{ y: -100, duration: 200 }} class="logo">
+	<div transition:fade={{ duration: 200 }} class="logo">
 		<img width=100% on:click={logoAction} src={logo} alt="logo"/>
 	</div>
 	{/if}
@@ -34,12 +34,12 @@
 	<div class="buttons-wrapper">
 		{#if width <= 980}
 			{#if fullscreenMenuVisible}
-			<div transition:fly={{ y: -100, duration: 200 }} class="buttons buttons-sm show">
+			<div transition:fade={{ y: -100, duration: 200 }} class="buttons buttons-sm show">
 				<slot>Caricamento bottoni...</slot>
 			</div>
 			{/if}
 		{:else}
-		<div transition:fly={{ y: -100, duration: 200 }} class="buttons">
+		<div transition:fade={{ y: -100, duration: 200 }} class="buttons">
 			<slot>Caricamento bottoni...</slot>
 		</div>
 		{/if}

@@ -1,4 +1,5 @@
 <script>
+	import { onDestroy } from 'svelte';
 	import { language } from './../../store/language.js';
 	import IconButton from './../button/IconButton.svelte';
 	import InputField from './InputField.svelte';
@@ -12,6 +13,8 @@
 	export let hints = true;
 	export let suggestions = [];
 	export let tags = {};
+	export let onTagsUpdate;
+	export let selectedTags = [];
 	let y = -1;
 	let cls = ""; export {cls as class};
 	let buttonClass = "btn-primary";
@@ -21,7 +24,11 @@
 	let shiftDown = false;
 	let showAll = false;
 	const PATTERN_TAG = /\#\w+\s+/g;
-	let selectedTags = [];
+	
+
+	export function getSelectedTags(){
+		return selectedTags;
+	}
 
 	function select(item){
 		if(item.action){
@@ -86,6 +93,7 @@
 						selectedTags.push(key);
 						value = "";
 						selectedTags = selectedTags;
+						if(onTagsUpdate) onTagsUpdate(selectedTags);
 						return;
 					}
 				}
@@ -97,10 +105,11 @@
 			if(pop){
 				selectedTags.pop();
 				selectedTags = selectedTags;
+				if(onTagsUpdate) onTagsUpdate(selectedTags);
 			}
 			return;
 		}
-		const regex = new RegExp(value===""?".*":value);
+		const regex = new RegExp(value===""?".*":value,"i");
 		let tmp = null;
 		for(let i = 0; i < suggestions.length; i++){
 			let suggestion = suggestions[i];
@@ -164,6 +173,7 @@
 			
 		});
 		selectedTags = selectedTags;
+		if(onTagsUpdate) onTagsUpdate(selectedTags);
 		activeSuggestionList = activeSuggestionList;
 	}
 </script>

@@ -16,25 +16,25 @@
 	let arrowEl;
 
 	onMount(async ()=>{
-		if(type.includes("none")) return;
+		if(type === "none") return;
 		(function poll(){
 			if(target){
+				if(target.getElement)
+					target = target.getElement();
 				if(type === "mouseover"){
 					if(target.setAttribute)
 						target.setAttribute("id",id);
 					target.addEventListener("mouseover",enter);
 					target.addEventListener("mouseout",leave);
 				}else if(type ==="click"){
-					if(type.includes("click")){
-						if(target.setAttribute)
-							target.setAttribute("id",id);
-						target.addEventListener("click",enter);
-					}
-					if(type.includes("focus")){
-						if(target.setAttribute)
+					if(target.setAttribute)
+						target.setAttribute("id",id);
+					target.addEventListener("click",enter);
+				}else if(type === "focus"){
+					if(target.setAttribute)
 							target.setAttribute("id",id);
 						target.addEventListener("focus",enter);
-					}
+						target.addEventListener("blur",leave);
 				}else{
 					forceEndPoll = true;
 				}
@@ -61,15 +61,15 @@
 		arrowEl = arrow;
 		switch(position){
 			case "top":
-				arrow.style.left = "auto";
-				arrow.style.right = "auto";
+				arrow.style.left = "50%";
+				arrow.style.right = "50%";
 				arrow.style.top = "auto";
 				arrow.style.bottom = "-0.4rem";
 				arrow.style.transform = "rotateZ(-135deg)";
 				break;
 			case "bottom":
-				arrow.style.left = "auto";
-				arrow.style.right = "auto";
+				arrow.style.left = "50%";
+				arrow.style.right = "50%";
 				arrow.style.top = "-0.4rem";
 				arrow.style.bottom = "auto";
 				arrow.style.transform = "rotateZ(45deg)";
@@ -77,21 +77,21 @@
 			case "left":
 				arrow.style.left = "auto";
 				arrow.style.right = "-0.4rem";
-				arrow.style.top = "auto";
-				arrow.style.bottom = "auto";
+				arrow.style.top = "50%";
+				arrow.style.bottom = "50%";
 				arrow.style.transform = "rotateZ(130deg)";
 				break;
 			case "right":
 				arrow.style.left = "-0.4rem";
 				arrow.style.right = "auto";
-				arrow.style.top = "auto";
-				arrow.style.bottom = "auto";
+				arrow.style.top = "50%";
+				arrow.style.bottom = "50%";
 				arrow.style.transform = "rotateZ(-45deg)";
 				break;
 		}
 	}
 
-	function manageTooltip(tooltip){
+	function manageTooltip(tooltip,gid){
 		const rect = target.getBoundingClientRect();
 		switch(position){
 			case "top":
@@ -145,6 +145,9 @@
 				}
 				break;
 		}
+		if($tooltip === id) setTimeout(()=>{
+			manageTooltip(tooltip,$tooltip);
+		},10);
 	}
 	function getTransition(){
 		switch(position){
@@ -177,9 +180,9 @@
 
 <style>
 	.card{
-		pointer-events: none;
 		position: fixed;
 		display: block;
+		pointer-events: none;
 		z-index: 99999;
 		border-color: #e3e3e3;
 		background: #ffffff;

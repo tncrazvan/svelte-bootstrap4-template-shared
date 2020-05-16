@@ -1,4 +1,5 @@
 <script>
+	import Tooltip from './../misc/Tooltip.svelte';
 	import {onMount} from 'svelte';
 	import uuid from './../../script/uuid.js';
 	export let value="";
@@ -11,6 +12,9 @@
 		if(type !== "textarea")
 			self.setAttribute("type",type);
 	});
+	export function getElement(){
+		return self;
+	}
 </script>
 <div style={css} class="form-label-group {cls}">
 	{#if type !== "textarea"}
@@ -24,5 +28,8 @@
 <style>
 	.textarea-label{
 		margin: 0.5rem;
+	}
+	label{
+		pointer-events: none;
 	}
 </style>
