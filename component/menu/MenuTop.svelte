@@ -9,6 +9,7 @@
 	}
 	let width = 0;
 	let stop = false;
+	let navbar;
 	onMount(()=>{
 		(function poll(){
 			if(window.main && window.main.offsetWidth !== width)
@@ -23,7 +24,7 @@
 		stop = false;
 	});
 </script>
-<nav class="navbar navbar-light bg-light">
+<nav bind:this={navbar} class="navbar navbar-light bg-light">
 	{#if width > 980}
 	<div transition:fly={{ y: -100, duration: 200 }} class="logo">
 		<img width=100% on:click={logoAction} src={logo} alt="logo"/>
@@ -67,11 +68,11 @@
 	}
 
 	.navbar{
-		position: absolute;
+		position: relative;
 		top: 0;
 		left: 0;
 		right: 0;
-		z-index: 1;
+		z-index: 3;
 		border-bottom: 1px solid #f1f1f1;
 		display: grid;
 		grid-template-columns: auto 1fr auto;
