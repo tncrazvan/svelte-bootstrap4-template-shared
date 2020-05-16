@@ -3,8 +3,8 @@
 	import { Link, Router } from "svelte-routing";
 	import { pathname } from './../../store/pathname.js';
 	export let text;
-	export let icon;
-	export let icon2;
+	export let icon = "";
+	export let icon2 = "";
 	export let link;
 	export let url;
 	export let matchPartial = false;
@@ -30,11 +30,11 @@
 	{#if link && !matchPartial}
 	<Router url="{url}">
 		<Link to={link}>
-			{#if icon}
+			{#if icon && icon !== ""}
 			<i class="fa fa-{icon}"></i>
 			{/if}
 			<span>{text}</span>
-			{#if icon2}
+			{#if icon2 && icon2 !== ""}
 			<i class="fa fa-{icon2}"></i>
 			{/if}
 		</Link>
