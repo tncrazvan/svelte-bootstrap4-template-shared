@@ -54,11 +54,12 @@
 	function keydown(e){
 		switch(e.keyCode){
 			case 32: //space key
-				if(e.ctrlKey)
+				if(e.ctrlKey && activeSuggestionList.length > 0)
 					focused = true;
 			break;
 			case 27: //escape key
 				focused = false;
+				forceClosedSuggestions = true;
 			break;
 			case 13: //enter key
 				if(y >= 0 && activeSuggestionList[y])
@@ -74,13 +75,14 @@
 			break;
 		}
 	}
+	let forceClosedSuggestions = false;
 	function keyup(e){
+		if(value === "#" && !forceClosedSuggestions)
+			focused = true;
 		switch(e.keyCode){
+			case 27: //escape up
 			case 38: //arrow up
-				//highlightUp();
-			break;
 			case 40: //arrow down
-				//highlightDown();
 			break;
 			default:
 				filter(e.keyCode === 8 && e.shiftKey);
@@ -203,7 +205,7 @@
 		</div>
 		{/if}
 
-		<input on:keydown={keydown} on:keyup={keyup} on:focus={()=>{focused = true}} on:blur={()=>{focused = false}} bind:this={self} bind:value={value} id="{id}-search-bar" class="form-control" placeholder={label}>
+		<input on:keydown={keydown} on:keyup={keyup} on:focus={()=>{focused = value === "#"}} on:blur={()=>{focused = false}} bind:this={self} bind:value={value} id="{id}-search-bar" class="form-control" placeholder={label}>
 		<label for="{id}-search-bar">{label}</label>
 	</div>
 	<button type="button" on:click={()=>{submit(value,selectedTags)}} class="submit btn {buttonClass}">
