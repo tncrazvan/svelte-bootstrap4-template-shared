@@ -4,6 +4,7 @@
 	import InputField from './../input/InputField.svelte';
 	import Tooltip from './../misc/Tooltip.svelte';
 	import SortTable from './SortTable.svelte';
+	import sortBy from './../../script/sortBy.js';
 	export let columns;
 	export let tooltips = [];
 	export let rows;
@@ -51,12 +52,17 @@
 	}
 
 	function filter(row,i){
+		if(search === "") return true;
+		let result = false;
 		for(let col of row){
-			
+			if(	selectedTags.includes(	toTag(	columns[i]	)	)	){
+				if(col.match(search)){
+					result = true;
+					break;
+				}
+			}
 		}
-		
-		console.log(tags);
-		return true;
+		return result;
 	}
 	function done(){
 		loading = false;
@@ -66,23 +72,52 @@
 			header[i].click();
 		});
 	}
+
+	let reverseSort = true;
+	let lastSortedColIndex = -1;
+	function sortRows(colIndex){
+		if(!rows) return;
+		if(colIndex !== lastSortedColIndex){
+			lastSortedColIndex = -1;
+			reverseSort = true;
+		}
+
+		rows.sort(sortBy(colIndex,reverseSort));
+		if(colIndex === lastSortedColIndex || lastSortedColIndex === -1)
+			reverseSort = !reverseSort;
+		lastSortedColIndex = colIndex;
+		rows = rows;
+	}
+
+	function submit(search,tags){
+		rows = rows;
+	}
 </script>
 {#if loading}
 <Spinner />
 {:else}
-<SearchBar onTagsUpdate={tags=>selectedTags = tags} text="Cerca" submit={e=>{}} {suggestions} bind:tags={tags} {label} bind:value={search}/>
+<SearchBar onTagsUpdate={tags=>selectedTags = tags} text="Cerca" {submit} {suggestions} bind:tags={tags} {label} bind:value={search}/>
 <br />
 <br />
 {/if}
-<SortTable class={cls}>
+<table class="table table-bordered {cls}">
 	<thead>
 		<tr>
 			{#each columns as col,i}
-			<th class="{selectedTags.includes(toTag(col))?'selected':''}" bind:this={header[i]}>
+			<th on:click={()=>{sortRows(i)}} class="{selectedTags.includes(toTag(col))?'selected':''}" bind:this={header[i]}>
 				{#if tooltips && tooltips[i]}
 					<small><Tooltip target={header[i]}>{tooltips[i]}</Tooltip></small>
 				{/if}
-				<span use:mapColumnAsTag={{col:col,i:i}}>{col}</span>
+				<span use:mapColumnAsTag={{col:col,i:i}}>
+					{col}
+					{#if i === lastSortedColIndex}
+						{#if reverseSort}
+							<i class="fa fa-long-arrow-alt-up"></i>
+						{:else}
+							<i class="fa fa-long-arrow-alt-down"></i>
+						{/if}
+					{/if}
+				</span>
 			</th>
 			{/each}
 		</tr>
@@ -105,12 +140,21 @@
 				{#if tooltips && tooltips[i]}
 					<small><Tooltip target={footer[i]}>{tooltips[i]}</Tooltip></small>
 				{/if}
-				<span>{col}</span>
+				<span>
+					{col}
+					{#if i === lastSortedColIndex}
+						{#if reverseSort}
+							<i class="fa fa-long-arrow-alt-up"></i>
+						{:else}
+							<i class="fa fa-long-arrow-alt-down"></i>
+						{/if}
+					{/if}
+				</span>
 			</th>
 			{/each}
 		</tr>
 	</tbody>
-</SortTable>
+</table>
 
 <style>
 	.selected{
@@ -122,7 +166,9 @@
 	}
 	td,th{
 		font-size: 0.8rem;
-		user-select: text;
 		background: #ffffff;
+	}
+	td{
+		user-select: text;
 	}
 </style>

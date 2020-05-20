@@ -53,16 +53,23 @@
 
 	function keydown(e){
 		switch(e.keyCode){
-			case 13: //enter
-				if(y >= 0 && activeSuggestionList[y] && activeSuggestionList[y].action)
+			case 32: //space key
+				if(e.ctrlKey)
+					focused = true;
+			break;
+			case 27: //escape key
+				focused = false;
+			break;
+			case 13: //enter key
+				if(y >= 0 && activeSuggestionList[y])
 					select(activeSuggestionList[y]);
 				else
 					submit(value,selectedTags);
 				break;
-			case 38: //arrow up
+			case 38: //arrow up key
 				highlightUp();
 			break;
-			case 40: //arrow down
+			case 40: //arrow down key
 				highlightDown();
 			break;
 		}
