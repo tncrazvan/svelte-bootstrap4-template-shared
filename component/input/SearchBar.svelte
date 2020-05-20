@@ -15,6 +15,7 @@
 	export let tags = {};
 	export let onTagsUpdate;
 	export let selectedTags = [];
+	export let liveSearch = false;
 	let y = -1;
 	let cls = ""; export {cls as class};
 	let buttonClass = "btn-primary";
@@ -73,6 +74,10 @@
 			case 40: //arrow down key
 				highlightDown();
 			break;
+			default:
+				if(liveSearch)
+					submit(value,selectedTags);
+				break;
 		}
 	}
 	let forceClosedSuggestions = false;

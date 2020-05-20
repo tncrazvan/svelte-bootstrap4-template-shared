@@ -3,13 +3,13 @@
 	import SearchBar from './../input/SearchBar.svelte';
 	import InputField from './../input/InputField.svelte';
 	import Tooltip from './../misc/Tooltip.svelte';
-	import SortTable from './SortTable.svelte';
 	import sortBy from './../../script/sortBy.js';
 	export let columns;
 	export let tooltips = [];
 	export let rows;
 	export let click;
 	export let search = "";
+	export let liveSearch = false;
 	export let label = "Utilizza i nomi delle colonne come #tag per eseguire una ricerca sulle colonne.";
 	let cls; export {cls as class};
 	let highlights = [];
@@ -34,7 +34,6 @@
 	function addToSuggestions(e,data){
 		for(let key in columnsToTagsMap){
 			if(columnsToTagsMap[key] === data.i){
-				console.log(columnsToTagsMap[key]);
 				if(!tags[key])
 					tags[key] = [];
 				
@@ -54,9 +53,11 @@
 	function filter(row,i){
 		if(search === "") return true;
 		let result = false;
-		for(let col of row){
-			if(	selectedTags.includes(	toTag(	columns[i]	)	)	){
-				if(col.match(search)){
+		for(let j = 0; j < row.length; j++){
+			let col = row[j];
+			if(	selectedTags.includes(	toTag(	columns[j]	)	)	){
+				let regex = new RegExp(search.replace(/\W/i,"."),"i");
+				if(col.match(regex)){
 					result = true;
 					break;
 				}
@@ -96,7 +97,7 @@
 {#if loading}
 <Spinner />
 {:else}
-<SearchBar onTagsUpdate={tags=>selectedTags = tags} text="Cerca" {submit} {suggestions} bind:tags={tags} {label} bind:value={search}/>
+<SearchBar {liveSearch} onTagsUpdate={tags=>selectedTags = tags} text="Cerca" {submit} {suggestions} bind:tags={tags} {label} bind:value={search}/>
 <br />
 <br />
 {/if}

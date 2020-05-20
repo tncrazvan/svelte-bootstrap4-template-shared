@@ -24,9 +24,6 @@
 	import './libs/datepicker/datepicker.js';
 	import './libs/datepicker/datepicker.css';
 
-	//sort-table
-	import './libs/sort-table/sort-table.min.js';
-
 	//others
 	import './style/fontawesome/css/all.min.css';
 	import './style/extra.css';
