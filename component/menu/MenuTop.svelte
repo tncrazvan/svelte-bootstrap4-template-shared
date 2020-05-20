@@ -4,8 +4,11 @@
 	export let logoAction;
 	export let logo = "/assets/images/logo.png";
 	let fullscreenMenuVisible = false;
-	function toggleFullscreenMenu(){
-		fullscreenMenuVisible = !fullscreenMenuVisible;
+	export function show(){
+		fullscreenMenuVisible = true;
+	}
+	export function hide(){
+		fullscreenMenuVisible = false;
 	}
 	let width = 0;
 	let stop = false;
@@ -32,21 +35,14 @@
 	{/if}
 	
 	<div class="buttons-wrapper">
-		{#if width <= 980}
-			{#if fullscreenMenuVisible}
-			<div transition:fade={{ y: -100, duration: 200 }} class="buttons buttons-sm show">
-				<slot>Caricamento bottoni...</slot>
-			</div>
-			{/if}
-		{:else}
-		<div transition:fade={{ y: -100, duration: 200 }} class="buttons">
+		<div class="buttons {width <= 980?'buttons-sm':''} {fullscreenMenuVisible?'show':''}">
 			<slot>Caricamento bottoni...</slot>
 		</div>
-		{/if}
 	</div>
+	
 	{#if width <= 980}
 	<div></div>
-	<div on:click={toggleFullscreenMenu} class="toggle">
+	<div on:click={fullscreenMenuVisible?hide:show} class="toggle">
 		<i class="fa fa-{fullscreenMenuVisible?'times':'bars'}"></i>
 	</div>
 	{/if}

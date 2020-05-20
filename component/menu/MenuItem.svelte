@@ -9,10 +9,14 @@
 	export let url;
 	export let matchPartial = false;
 	export let usetooltip = true;
+	export let action;
 	let item;
 	function click(){
-		if(!matchPartial)
+		if(!matchPartial){
 			$pathname = link;
+			if(action)
+				action(link);
+		}
 	}
 	export function getElement(){
 		return item;
