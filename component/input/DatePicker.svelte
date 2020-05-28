@@ -18,6 +18,6 @@
 	});
 </script>
 <div class="form-label-group {cls}">
-	<input bind:this={self} bind:value={val} type="password" id="{id}-inputPassword" class="datepicker form-control" placeholder={label}>
-	<label for="{id}-inputPassword">{label}</label>
+	<input bind:this={self} bind:value={val} type="text" id="{id}-datePicker" class="datepicker form-control" placeholder={label}>
+	<label for="{id}-datePicker">{label}</label>
 </div>
