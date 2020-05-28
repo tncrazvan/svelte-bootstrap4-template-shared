@@ -29,7 +29,6 @@
 	import './style/extra.css';
 	import './style/printable.css';
 	
-	export let url = window.location.pathname;
 	const getSidemenuData=async ()=>{
 		let response = await fetch("/json/sidemenu.json");
 		response = await response.json();
@@ -50,7 +49,7 @@
 {/if}
 {#if !$printer.showing}
 <div id="main">
-	<Main url={url} />
+	<Main />
 </div>
 {:else}
 	<Printing />

@@ -33,37 +33,10 @@
 
 {#if usetooltip}
 <Tooltip html={true} value={tooltip}>
-	<div bind:this={item} on:click={click} class="menu-item{matchLink($pathname)?' selected':''}">
-		{#if link && !matchPartial}
-		<Router url="{url}">
-			<Link to={link}>
-				{#if icon && icon !== ""}
-				<i class="fa fa-{icon}"></i>
-				{/if}
-				<span>{text}</span>
-				{#if icon2 && icon2 !== ""}
-				<i class="fa fa-{icon2}"></i>
-				{/if}
-			</Link>
-		</Router>
-		{:else}
-			<span>
-				{#if icon}
-				<i class="fa fa-{icon}"></i>
-				{/if}
-				<span>{text}</span>
-				{#if icon2}
-				<i class="fa fa-{icon2}"></i>
-				{/if}
-			</span>
-		{/if}
-	</div>
-</Tooltip>
-{:else}
-<div bind:this={item} on:click={click} class="menu-item{matchLink($pathname)?' selected':''}">
 	{#if link && !matchPartial}
 	<Router url="{url}">
 		<Link to={link}>
+			<div bind:this={item} on:click={click} class="menu-item{matchLink($pathname)?' selected':''}">
 			{#if icon && icon !== ""}
 			<i class="fa fa-{icon}"></i>
 			{/if}
@@ -71,9 +44,11 @@
 			{#if icon2 && icon2 !== ""}
 			<i class="fa fa-{icon2}"></i>
 			{/if}
+			</div>
 		</Link>
 	</Router>
 	{:else}
+		<div bind:this={item} on:click={click} class="menu-item{matchLink($pathname)?' selected':''}">
 		<span>
 			{#if icon}
 			<i class="fa fa-{icon}"></i>
@@ -83,8 +58,41 @@
 			<i class="fa fa-{icon2}"></i>
 			{/if}
 		</span>
+		</div>
 	{/if}
-</div>
+</Tooltip>
+{:else}
+
+
+	{#if link && !matchPartial}
+	<Router url="{url}">
+		<Link to={link}>
+			<div bind:this={item} on:click={click} class="menu-item{matchLink($pathname)?' selected':''}">
+			{#if icon && icon !== ""}
+			<i class="fa fa-{icon}"></i>
+			{/if}
+			<span>{text}</span>
+			{#if icon2 && icon2 !== ""}
+			<i class="fa fa-{icon2}"></i>
+			{/if}
+			</div>
+		</Link>
+	</Router>
+	{:else}
+		<div bind:this={item} on:click={click} class="menu-item{matchLink($pathname)?' selected':''}">
+		<span>
+			{#if icon}
+			<i class="fa fa-{icon}"></i>
+			{/if}
+			<span>{text}</span>
+			{#if icon2}
+			<i class="fa fa-{icon2}"></i>
+			{/if}
+		</span>
+		</div>
+	{/if}
+
+
 {/if}
 
 <style>
