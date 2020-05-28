@@ -9,6 +9,7 @@
 	export let url;
 	export let matchPartial = false;
 	export let usetooltip = true;
+	export let tooltip = "";
 	export let action;
 	let item;
 	function click(){
@@ -30,6 +31,35 @@
 	}
 </script>
 
+{#if usetooltip}
+<Tooltip html={true} value={tooltip}>
+	<div bind:this={item} on:click={click} class="menu-item{matchLink($pathname)?' selected':''}">
+		{#if link && !matchPartial}
+		<Router url="{url}">
+			<Link to={link}>
+				{#if icon && icon !== ""}
+				<i class="fa fa-{icon}"></i>
+				{/if}
+				<span>{text}</span>
+				{#if icon2 && icon2 !== ""}
+				<i class="fa fa-{icon2}"></i>
+				{/if}
+			</Link>
+		</Router>
+		{:else}
+			<span>
+				{#if icon}
+				<i class="fa fa-{icon}"></i>
+				{/if}
+				<span>{text}</span>
+				{#if icon2}
+				<i class="fa fa-{icon2}"></i>
+				{/if}
+			</span>
+		{/if}
+	</div>
+</Tooltip>
+{:else}
 <div bind:this={item} on:click={click} class="menu-item{matchLink($pathname)?' selected':''}">
 	{#if link && !matchPartial}
 	<Router url="{url}">
@@ -55,10 +85,6 @@
 		</span>
 	{/if}
 </div>
-{#if usetooltip}
-<Tooltip target={item} position="bottom">
-	<slot></slot>
-</Tooltip>
 {/if}
 
 <style>
