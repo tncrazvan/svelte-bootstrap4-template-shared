@@ -29,3 +29,9 @@
 	{/each}
 	</select>
 </div>
+
+<style>
+	.input-group-text{
+		background: transparent;
+	}
+</style>
