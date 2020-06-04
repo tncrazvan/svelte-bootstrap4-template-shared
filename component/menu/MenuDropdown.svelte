@@ -21,3 +21,12 @@
 		<slot></slot>
   </div>
 </div>
+
+<style>
+	.dropdown{
+		display: inline-block;
+	}
+	.dropdown-menu{
+		padding: 0.3rem;
+	}
+</style>

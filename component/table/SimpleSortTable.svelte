@@ -105,20 +105,20 @@
 	<thead>
 		<tr>
 			{#each columns as col,i}
+			
 			<th on:click={()=>{sortRows(i)}} class="{selectedTags.includes(toTag(col))?'selected':''}" bind:this={header[i]}>
-				{#if tooltips && tooltips[i]}
-					<small><Tooltip target={header[i]}>{tooltips[i]}</Tooltip></small>
-				{/if}
-				<span use:mapColumnAsTag={{col:col,i:i}}>
-					{col}
-					{#if i === lastSortedColIndex}
-						{#if reverseSort}
-							<i class="fa fa-long-arrow-alt-up"></i>
-						{:else}
-							<i class="fa fa-long-arrow-alt-down"></i>
+				<Tooltip html={true} value={tooltips && tooltips[i]?("<small>"+tooltips[i]+"</small>"):""}>
+					<span use:mapColumnAsTag={{col:col,i:i}}>
+						{col}
+						{#if i === lastSortedColIndex}
+							{#if reverseSort}
+								<i class="fa fa-long-arrow-alt-up"></i>
+							{:else}
+								<i class="fa fa-long-arrow-alt-down"></i>
+							{/if}
 						{/if}
-					{/if}
-				</span>
+					</span>
+				</Tooltip>
 			</th>
 			{/each}
 		</tr>
@@ -138,19 +138,22 @@
 		<tr>
 			{#each columns as col,i}
 			<th use:registerFooterEvents={i} class="{selectedTags.includes(toTag(col))?'selected':''}" bind:this={footer[i]}>
-				{#if tooltips && tooltips[i]}
-					<small><Tooltip target={footer[i]}>{tooltips[i]}</Tooltip></small>
-				{/if}
-				<span>
-					{col}
-					{#if i === lastSortedColIndex}
-						{#if reverseSort}
-							<i class="fa fa-long-arrow-alt-up"></i>
-						{:else}
-							<i class="fa fa-long-arrow-alt-down"></i>
+
+
+				<Tooltip html={true} value={tooltips && tooltips[i]?("<small>"+tooltips[i]+"</small>"):""}>
+					<span>
+						{col}
+						{#if i === lastSortedColIndex}
+							{#if reverseSort}
+								<i class="fa fa-long-arrow-alt-up"></i>
+							{:else}
+								<i class="fa fa-long-arrow-alt-down"></i>
+							{/if}
 						{/if}
-					{/if}
-				</span>
+					</span>	
+				</Tooltip>
+
+
 			</th>
 			{/each}
 		</tr>

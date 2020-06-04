@@ -76,6 +76,8 @@
 	
 	.navbar .buttons{
 		display: inline-block;
+		width: 100%;
+		position: relative;
 	}
 
 	.navbar .buttons.buttons-sm{

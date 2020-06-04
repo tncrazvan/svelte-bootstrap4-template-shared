@@ -30,7 +30,7 @@
 		return pname.match(tmp);
 	}
 </script>
-
+<div style="display: inline-block">
 {#if usetooltip}
 <Tooltip html={true} value={tooltip}>
 	{#if link && !matchPartial}
@@ -64,36 +64,37 @@
 {:else}
 
 
-	{#if link && !matchPartial}
-	<Router url="{url}">
-		<Link to={link}>
+		{#if link && !matchPartial}
+		<Router url="{url}">
+			<Link to={link}>
+				<div bind:this={item} on:click={click} class="menu-item{matchLink($pathname)?' selected':''}">
+				{#if icon && icon !== ""}
+				<i class="fa fa-{icon}"></i>
+				{/if}
+				<span>{text}</span>
+				{#if icon2 && icon2 !== ""}
+				<i class="fa fa-{icon2}"></i>
+				{/if}
+				</div>
+			</Link>
+		</Router>
+		{:else}
 			<div bind:this={item} on:click={click} class="menu-item{matchLink($pathname)?' selected':''}">
-			{#if icon && icon !== ""}
-			<i class="fa fa-{icon}"></i>
-			{/if}
-			<span>{text}</span>
-			{#if icon2 && icon2 !== ""}
-			<i class="fa fa-{icon2}"></i>
-			{/if}
+			<span>
+				{#if icon}
+				<i class="fa fa-{icon}"></i>
+				{/if}
+				<span>{text}</span>
+				{#if icon2}
+				<i class="fa fa-{icon2}"></i>
+				{/if}
+			</span>
 			</div>
-		</Link>
-	</Router>
-	{:else}
-		<div bind:this={item} on:click={click} class="menu-item{matchLink($pathname)?' selected':''}">
-		<span>
-			{#if icon}
-			<i class="fa fa-{icon}"></i>
-			{/if}
-			<span>{text}</span>
-			{#if icon2}
-			<i class="fa fa-{icon2}"></i>
-			{/if}
-		</span>
-		</div>
-	{/if}
+		{/if}
 
 
 {/if}
+</div>
 
 <style>
 	:root{
