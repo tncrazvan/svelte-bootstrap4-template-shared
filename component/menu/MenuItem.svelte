@@ -30,7 +30,7 @@
 		return pname.match(tmp);
 	}
 </script>
-<div style="display: inline-block">
+<div class="menu-item-wrapper" style="display: inline-block">
 {#if usetooltip}
 <Tooltip html={true} value={tooltip}>
 	{#if link && !matchPartial}
@@ -97,6 +97,9 @@
 </div>
 
 <style>
+	:global(.dropdown-menu .menu-item-wrapper, .dropdown-menu .menu-item-wrapper a, .dropdown-menu .menu-item-wrapper .menu-item){
+		width: 100%
+	}
 	:root{
 		--inactive-color: #babbbb;
 		--active-color: #f17010;
